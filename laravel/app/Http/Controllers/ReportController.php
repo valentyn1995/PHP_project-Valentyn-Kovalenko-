@@ -35,10 +35,8 @@ class ReportController extends Controller
 
         $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
 
-        // Отримайте параметр driver_id з URL
         $driverId = request()->input('driver_id');
 
-        // Якщо передано параметр driver_id, перенаправте на сторінку з інформацією про водія
         if ($driverId) {
             return $this->showDriverInfo($driverId);
         }
@@ -52,12 +50,10 @@ class ReportController extends Controller
 
         $sortedReportDataAboutDriver = $this->reportService->buildingReport($pathToFile);
 
-        // Перевіряємо, чи є інформація про водія з вказаним driver_id
         if (isset($sortedReportDataAboutDriver[$driverId])) {
             $driverInfo = $sortedReportDataAboutDriver[$driverId];
             return view('report.driver_info', ['driverInfo' => $driverInfo]);
         } else {
-            // Водія з таким driver_id не знайдено, можливо, вам потрібно відобразити повідомлення про помилку
             return view('report.driver_info', ['driverInfo' => null]);
         }
     }
