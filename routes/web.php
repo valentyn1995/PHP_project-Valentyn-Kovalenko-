@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\MainController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +13,7 @@ use App\Http\Controllers\MainController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [MainController::class, 'index'])->name('main');
+Route::get('/', [AdminController::class, 'admin'])->name('adminlte');
 
 Route::get('/report', [ReportController::class, 'showStatistics'])->name('report.statistics');
 
