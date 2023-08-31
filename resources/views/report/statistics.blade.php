@@ -1,3 +1,5 @@
+@extends('layouts.layout')
+@section('content')
 <h2>Common statistic</h2>
 <table>
     <thead>
@@ -17,3 +19,5 @@
         @endforeach
     </tbody>
 </table>
+
+@endsection

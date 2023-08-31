@@ -1,3 +1,5 @@
+@extends('layouts.layout')
+@section('content')
 <h2>List of drivers</h2>
 <table>
     <thead>
@@ -14,4 +16,5 @@
             </tr>
         @endforeach
     </tbody>
-</table>
+</table>    
+@endsection

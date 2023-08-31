@@ -1,3 +1,5 @@
+@extends('layouts.layout')
+@section('content')
 <h2>Driver Info</h2>
 @if ($driverInfo)
     <p>Driver name: {{ $driverInfo['nameRacer'] }}</p>
@@ -7,3 +9,4 @@
     <p>No information available for this driver.</p>
 @endif
 
+@endsection
