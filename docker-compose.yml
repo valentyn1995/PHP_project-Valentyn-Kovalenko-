@@ -1,11 +1,20 @@
-version: "3"
+version: '3'
+
 services:
-  php:
-    image: php:8.2-fpm # Use the PHP 8.2 FPM (FastCGI Process Manager) image
-    build:
-      context: . # Build the image using the current directory as the build context
-      dockerfile: ./Dockerfile # Use the specified Dockerfile for building the image
+  nginx:
+    image: nginx:latest
+    volumes: 
+      - .:/app
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "5000:80"
+    depends_on:
+      - app
+
+  app:
+    image: php:8.2-fpm
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
