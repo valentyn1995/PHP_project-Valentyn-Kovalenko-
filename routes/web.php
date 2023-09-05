@@ -13,6 +13,10 @@ use App\Http\Controllers\ReportController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/report', [ReportController::class, 'showStatistics'])->name('report.statistics');
 
 Route::get('/report/drivers', [ReportController::class, 'showDriversName'])->name('report.drivers');
