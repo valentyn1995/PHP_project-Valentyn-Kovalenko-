@@ -20,7 +20,7 @@ class ReportController extends Controller
 
     public function showStatistics()
     {
-        $pathToFile = base_path('files_for_task');
+        $pathToFile = base_path('files_for_report');
         $sortDirection = request()->input('order', 'asc');
 
         $sortedReportData = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
@@ -30,7 +30,7 @@ class ReportController extends Controller
 
     public function showDriversName()
     {
-        $pathToFile = base_path('files_for_task');
+        $pathToFile = base_path('files_for_report');
         $sortDirection = request()->input('order', 'asc');
 
         $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
@@ -46,7 +46,7 @@ class ReportController extends Controller
 
     public function showDriverInfo($driverId)
     {
-        $pathToFile = base_path('files_for_task');
+        $pathToFile = base_path('files_for_report');
 
         $sortedReportDataAboutDriver = $this->reportService->buildingReport($pathToFile);
 
