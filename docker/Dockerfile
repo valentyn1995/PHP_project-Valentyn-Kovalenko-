@@ -24,6 +24,9 @@ COPY . /app/
 # Install the project dependencies using Composer
 RUN composer install
 
+# Set permissions
+RUN chmod -R 777 /app
+
 # Install the Xdebug extension
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
