@@ -30,5 +30,9 @@ localhost:5000/report/drivers
 ```sh
 localhost:5000/report/drivers/?order=desc
 ```
+5. Run tests
+```sh
+docker-compose exec -it app php artisan test
+```
 
 
