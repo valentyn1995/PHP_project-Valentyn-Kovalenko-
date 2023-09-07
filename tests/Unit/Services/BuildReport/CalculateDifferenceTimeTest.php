@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Services\BuildReport;
+
 use App\Services\BuildReport\CalculateDifferenceTime;
 use PHPUnit\Framework\TestCase;
 

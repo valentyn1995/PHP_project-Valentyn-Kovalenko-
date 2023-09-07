@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Services\BuildReport\ProcessDataRacerService;
-use Illuminate\Http\Request;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 
@@ -54,6 +53,7 @@ class ReportController extends Controller
             $driverInfo = $sortedReportDataAboutDriver[$driverId];
             return view('report.driver_info', ['driverInfo' => $driverInfo]);
         } else {
+
             return view('report.driver_info', ['driverInfo' => null]);
         }
     }

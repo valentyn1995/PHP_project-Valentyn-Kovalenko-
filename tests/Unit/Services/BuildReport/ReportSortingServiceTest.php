@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Services\BuildReport;
+
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +13,7 @@ class ReportSortingServiceTest extends TestCase
     /**
      * @dataProvider sortingForOutputProvider
      */
-    public function testSortingForOutput(?string $sortDirection, $expectedResult)
+    public function testSortingForOutput(?string $sortDirection, array $expectedResult): void
     {
         $reportServiceMock = $this->createMock(ReportService::class);
         $reportServiceMock->method('buildingReport')

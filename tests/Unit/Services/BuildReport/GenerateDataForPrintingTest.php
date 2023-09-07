@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Tests\Services\BuildReport;
+
 use PHPUnit\Framework\TestCase;
 use App\Services\BuildReport\GenerateDataForPrinting;
 
@@ -23,7 +25,7 @@ class GenerateDataForPrintingTest extends TestCase
         ];
 
         $expectedResult = $generator->formingDataForPrinting($resultNameRacer, $differenceTimeArray);
-        
+
         $this->assertEquals($expectedData, $expectedResult);
     }
 
