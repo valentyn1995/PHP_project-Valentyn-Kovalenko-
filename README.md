@@ -18,8 +18,17 @@ docker-compose up -d --build
 ```sh
 localhost:5000/report
 ```
+- report(with sort from slowest)
+```sh
+localhost:5000/report/?order=desc
+```
  - drivers list
 ```sh
 localhost:5000/report/drivers
 ```
+ - drivers list(with sort from slowest)
+```sh
+localhost:5000/report/drivers/?order=desc
+```
+
 
