@@ -14,7 +14,7 @@ docker-compose up -d --build
 ```
 4. Run application in browser
 
- - report 
+ - report(with sort from fastests)
 ```sh
 localhost:5000/report
 ```
@@ -22,7 +22,7 @@ localhost:5000/report
 ```sh
 localhost:5000/report/?order=desc
 ```
- - drivers list
+ - drivers list(with sort from fastests)
 ```sh
 localhost:5000/report/drivers
 ```
@@ -34,5 +34,8 @@ localhost:5000/report/drivers/?order=desc
 ```sh
 docker-compose exec -it app php artisan test
 ```
-
+6. Run tests with coverage
+```sh
+docker-compose exec -it app php artisan test --coverage-html coverage
+```
 
