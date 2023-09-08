@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -43,7 +45,7 @@ class ReportController extends Controller
         return view('report.drivers', ['sortedReportDataWithName' => $sortedReportDataWithName]);
     }
 
-    public function showDriverInfo($driverId)
+    public function showDriverInfo(string $driverId): mixed
     {
         $pathToFile = base_path('files_for_report');
 
