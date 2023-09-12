@@ -30,6 +30,14 @@ localhost:5000/report/drivers
 ```sh
 localhost:5000/report/drivers/?order=desc
 ```
+ - API (JSON file)
+ ```sh
+http://localhost:5000/api/v1/report/?format=json
+ ```
+ - API (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/?format=xml
+ ```
 5. Run tests
 ```sh
 docker-compose exec -it app php artisan test
