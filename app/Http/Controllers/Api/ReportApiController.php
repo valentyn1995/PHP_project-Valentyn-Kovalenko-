@@ -18,7 +18,7 @@ class ReportApiController extends Controller
     public function getReport(Request $request)
     {
         $pathToFiles = base_path('files_for_report');
-        $sortDirection = request()->input('order', 'asc');
+        $sortDirection = $request->input('order', 'asc');
         $sortedReportData = $this->reportSortingService->sortingForOutput($pathToFiles, $sortDirection);
 
         $format = $request->input('format', 'json');
