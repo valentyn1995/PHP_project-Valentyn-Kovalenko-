@@ -38,11 +38,18 @@ http://localhost:5000/api/v1/report/?format=json
  ```sh
  http://localhost:5000/api/v1/report/?format=xml
  ```
-5. Run tests
+5. Run Swagger documents
+```sh
+ - docker-compose exec -it app php artisan l5-swagger:generate
+```
+```sh
+ - http://localhost:5000/api/documentation
+```
+6. Run tests
 ```sh
 docker-compose exec -it app php artisan test
 ```
-6. Run tests with coverage
+7. Run tests with coverage
 ```sh
 docker-compose exec -it app php artisan test --coverage-html coverage
 ```
