@@ -37,7 +37,7 @@ class ReportController extends Controller
 
         $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
 
-        $driverId = request()->input('driver_id');
+        $driverId = $request->input('driver_id');
 
         if ($driverId) {
             return $this->showDriverInfo($driverId);
