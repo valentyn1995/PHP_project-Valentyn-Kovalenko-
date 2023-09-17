@@ -6,8 +6,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\APIServices\ReportForApi;
 use App\Services\APIServices\ResponseFormatterApiService;
+use App\Services\BuildReport\ReportSortingService;
+use App\Services\BuildReport\ReportService;
 use OpenAPI\Annotations as OA;
 
 /**
@@ -20,7 +21,8 @@ use OpenAPI\Annotations as OA;
 class ReportApiController extends Controller
 {
     public function __construct(
-        private ReportForApi $reportForApi,
+        private ReportSortingService $reportSortingService,
+        private ReportService $reportService,
         private ResponseFormatterApiService $responseFormatterApiService
     ) {
 
@@ -67,9 +69,8 @@ class ReportApiController extends Controller
      */
     public function getStatistics(Request $request)
     {
-
         $sortDirection = $request->input('order', 'asc');
-        $sortedReportData = $this->reportForApi->reportingForApi($sortDirection);
+        $sortedReportData = $this->reportingForApi($sortDirection);
 
         $format = $request->input('format', 'json');
 
@@ -125,7 +126,7 @@ class ReportApiController extends Controller
     public function getDriversName(Request $request)
     {
         $sortDirection = $request->input('order', 'asc');
-        $sortedReportDataWithName = $this->reportForApi->reportingForApi($sortDirection);
+        $sortedReportDataWithName = $this->reportingForApi($sortDirection);
 
         $driverId = $request->input('driver_id');
 
@@ -175,7 +176,7 @@ class ReportApiController extends Controller
      */
     public function getDriverInfo(Request $request, string $driverId)
     {
-        $sortedReportDataAboutDriver = $this->reportForApi->reportingForApi($sortDirection = null);
+        $sortedReportDataAboutDriver = $this->reportingForApi($sortDirection = null);
 
         if (isset($sortedReportDataAboutDriver[$driverId])) {
             $driverInfo = $sortedReportDataAboutDriver[$driverId];
@@ -183,6 +184,17 @@ class ReportApiController extends Controller
             $format = $request->input('format', 'json');
 
             return $this->responseFormatterApiService->formatter($format, $driverInfo);
+        }
+    }
+
+    private function reportingForApi($sortDirection)
+    {
+        $pathToFile = base_path('files_for_report');
+        
+        if ($sortDirection) {
+            return $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
+        } elseif (!$sortDirection) {
+            return $this->reportService->buildingReport($pathToFile);
         }
     }
 }
