@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Services\APIServices;
 
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Response;
 
 class ResponseFormatterApiService
 {
-    public function formatter($format, $dataForFormatting)
+    public function format(string $format, array $dataForFormatting)
     {
         if ($format === 'json') {
+            $jsonData = json_encode($dataForFormatting);
 
-            return Response::json($dataForFormatting);
+            return new Response($jsonData, 200, [
+                'Content-Type' => 'application/json',
+            ]);
         } elseif ($format === 'xml') {
             $xmlFile = $this->convertToXml($dataForFormatting);
 
-            return response($xmlFile, 200)->header('Content-Type', 'application/xml');
+            return new Response($xmlFile, 200, [
+                'Content-Type' => 'application/xml',
+            ]);
         }
     }
 

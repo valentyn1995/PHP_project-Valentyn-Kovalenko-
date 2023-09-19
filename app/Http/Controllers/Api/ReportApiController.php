@@ -74,7 +74,7 @@ class ReportApiController extends Controller
 
         $format = $request->input('format', 'json');
 
-        return $this->responseFormatterApiService->formatter($format, $sortedReportData);
+        return $this->responseFormatterApiService->format($format, $sortedReportData);
     }
 
     /**
@@ -135,7 +135,7 @@ class ReportApiController extends Controller
         }
         $format = $request->input('format', 'json');
 
-        return $this->responseFormatterApiService->formatter($format, $sortedReportDataWithName);
+        return $this->responseFormatterApiService->format($format, $sortedReportDataWithName);
     }
 
     /**
@@ -183,11 +183,11 @@ class ReportApiController extends Controller
 
             $format = $request->input('format', 'json');
 
-            return $this->responseFormatterApiService->formatter($format, $driverInfo);
+            return $this->responseFormatterApiService->format($format, $driverInfo);
         }
     }
 
-    private function reportingForApi($sortDirection)
+    private function reportingForApi(?string $sortDirection)
     {
         $pathToFile = base_path('files_for_report');
         
