@@ -30,13 +30,29 @@ localhost:5000/report/drivers
 ```sh
 localhost:5000/report/drivers/?order=desc
 ```
- - API (JSON file)
+ - API report (JSON file)
  ```sh
 http://localhost:5000/api/v1/report/?format=json
  ```
- - API (XML file)
+ - API report (XML file)
  ```sh
  http://localhost:5000/api/v1/report/?format=xml
+ ```
+ - API drivers list (JSON file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/?format=json
+ ```
+ - API drivers list (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/?format=xml
+ ```
+ - API driver's info (JSON file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/LHM/?format=json
+ ```
+ - API driver's info (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/LHM/?format=xml
  ```
 5. Run Swagger documents
 ```sh
