@@ -19,7 +19,7 @@ class ResponseFormatterApiServiceTest extends TestCase
             ]
         ];
 
-        $responseFormatter = new ResponseFormatterApiService;
+        $responseFormatter = new ResponseFormatterApiService();
         $response = $responseFormatter->format('json', $dataForFormatting);
         $result = $response->getContent();
 
@@ -43,7 +43,7 @@ class ResponseFormatterApiServiceTest extends TestCase
             ]
         ];
 
-        $responseFormatter = new ResponseFormatterApiService;
+        $responseFormatter = new ResponseFormatterApiService();
         $response = $responseFormatter->format('xml', $dataForFormatting);
         $result = $response->getContent();
 
