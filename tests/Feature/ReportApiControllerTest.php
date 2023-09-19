@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use PHPUnit\Framework\Assert;
 
 class ReportApiControllerTest extends TestCase
 {
