@@ -30,11 +30,42 @@ localhost:5000/report/drivers
 ```sh
 localhost:5000/report/drivers/?order=desc
 ```
-5. Run tests
+ - API report (JSON file)
+ ```sh
+http://localhost:5000/api/v1/report/?format=json
+ ```
+ - API report (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/?format=xml
+ ```
+ - API drivers list (JSON file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/?format=json
+ ```
+ - API drivers list (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/?format=xml
+ ```
+ - API driver's info (JSON file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/LHM/?format=json
+ ```
+ - API driver's info (XML file)
+ ```sh
+ http://localhost:5000/api/v1/report/drivers/LHM/?format=xml
+ ```
+5. Run Swagger documents
+```sh
+ - docker-compose exec -it app php artisan l5-swagger:generate
+```
+```sh
+ - http://localhost:5000/api/documentation
+```
+6. Run tests
 ```sh
 docker-compose exec -it app php artisan test
 ```
-6. Run tests with coverage
+7. Run tests with coverage
 ```sh
 docker-compose exec -it app php artisan test --coverage-html coverage
 ```

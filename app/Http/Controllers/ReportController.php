@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Services\BuildReport\ProcessDataRacerService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
@@ -19,24 +20,24 @@ class ReportController extends Controller
 
     }
 
-    public function showStatistics()
+    public function showStatistics(Request $request)
     {
         $pathToFile = base_path('files_for_report');
-        $sortDirection = request()->input('order', 'asc');
+        $sortDirection = $request->input('order', 'asc');
 
         $sortedReportData = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
 
         return view('report.statistics', ['reportData' => $sortedReportData]);
     }
 
-    public function showDriversName()
+    public function showDriversName(Request $request)
     {
         $pathToFile = base_path('files_for_report');
-        $sortDirection = request()->input('order', 'asc');
+        $sortDirection = $request->input('order', 'asc');
 
         $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
 
-        $driverId = request()->input('driver_id');
+        $driverId = $request->input('driver_id');
 
         if ($driverId) {
             return $this->showDriverInfo($driverId);
