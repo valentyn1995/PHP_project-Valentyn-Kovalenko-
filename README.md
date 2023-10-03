@@ -13,17 +13,17 @@ git clone -b task_6 https://git.foxminded.ua/foxstudent105191/php-6.git
 docker-compose up -d --build
 ```
 4. Write data from files to database
- - ```sh
+```sh
 docker-compose exec -it app bash
 ```
- - ```sh
-php artisan migrate
+```sh
+ - php artisan migrate
 ```
- - ```sh
-php artisan add:data
+```sh
+ - php artisan add:data
 ```
- - ```sh
-exit
+```sh
+ - exit
 ```
 5. Run application in browser
  - report(with sort from fastests)
