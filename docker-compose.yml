@@ -15,16 +15,15 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     depends_on:
-      - mysql
+      - db
 
-  mysql:
-    image: mysql:latest
+  db:
+    image: mysql:8.0
     restart: always
     volumes:
       - ./tmp/db:/var/lib/mysql
     environment:
-        MYSQL_DATABASE: report
-        MYSQL_ROOT_PASSWORD: 12345Aa.
+        MYSQL_DATABASE: larReport
+        MYSQL_ROOT_PASSWORD: 12345
     ports:
-      - 5001:3306
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+      - 5101:3306
