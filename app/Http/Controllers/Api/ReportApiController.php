@@ -10,6 +10,7 @@ use App\Services\APIServices\ResponseFormatterApiService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use OpenAPI\Annotations as OA;
+use App\Models\Report;
 
 /**
  * @OA\Info(
@@ -70,11 +71,20 @@ class ReportApiController extends Controller
     public function getStatistics(Request $request)
     {
         $sortDirection = $request->input('order', 'asc');
-        $sortedReportData = $this->reportingForApi($sortDirection);
+
+        $columnsToSelect = ['name', 'team', 'lap_time'];
+
+        $sortedReportData = Report::orderBy('lap_time', $sortDirection)
+            ->select($columnsToSelect)
+            ->get();
+
+        if ($sortedReportData){
+            $infoReportArray = $sortedReportData->toArray();
+        }
 
         $format = $request->input('format', 'json');
 
-        return $this->responseFormatterApiService->format($format, $sortedReportData);
+        return $this->responseFormatterApiService->format($format, $infoReportArray);
     }
 
     /**
@@ -83,20 +93,13 @@ class ReportApiController extends Controller
      *     summary="Get driver's name",
      *     tags={"Report"},
      *     @OA\Parameter(
-     *         name="order",
-     *         in="query",
-     *         description="Sort order (asc or desc)",
-     *         required=false,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
      *         name="format",
      *         in="query",
      *         description="Response format (json or xml)",
      *         required=false,
      *         @OA\Schema(type="string")
      *     ),
-     *     @OA\PArameter(
+     *     @OA\Parameter(
      *         name="driver_id",
      *         in="query",
      *         description="Driver's code",
@@ -125,17 +128,21 @@ class ReportApiController extends Controller
      */
     public function getDriversName(Request $request)
     {
-        $sortDirection = $request->input('order', 'asc');
-        $sortedReportDataWithName = $this->reportingForApi($sortDirection);
+        $sortedReportDataWithName = Report::select('drivers_code', 'name')->get();
 
         $driverId = $request->input('driver_id');
 
         if ($driverId) {
             return $this->getDriverInfo($request, $driverId);
         }
+
+        if ($sortedReportDataWithName){
+            $infoReportArray = $sortedReportDataWithName->toArray();
+        }
+
         $format = $request->input('format', 'json');
 
-        return $this->responseFormatterApiService->format($format, $sortedReportDataWithName);
+        return $this->responseFormatterApiService->format($format, $infoReportArray);
     }
 
     /**
@@ -176,25 +183,16 @@ class ReportApiController extends Controller
      */
     public function getDriverInfo(Request $request, string $driverId)
     {
-        $sortedReportDataAboutDriver = $this->reportingForApi($sortDirection = null);
+        $driverInfo = Report::where('drivers_code', $driverId)
+            ->select('name', 'team', 'lap_time')
+            ->first();
 
-        if (isset($sortedReportDataAboutDriver[$driverId])) {
-            $driverInfo = $sortedReportDataAboutDriver[$driverId];
+        if($driverInfo){
+            $infoReportArray = $driverInfo->toArray();
+        }   
 
-            $format = $request->input('format', 'json');
+        $format = $request->input('format', 'json');
 
-            return $this->responseFormatterApiService->format($format, $driverInfo);
-        }
-    }
-
-    private function reportingForApi(?string $sortDirection)
-    {
-        $pathToFile = base_path('files_for_report');
-        
-        if ($sortDirection) {
-            return $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
-        } elseif (!$sortDirection) {
-            return $this->reportService->buildingReport($pathToFile);
-        }
+        return $this->responseFormatterApiService->format($format, $infoReportArray);
     }
 }
