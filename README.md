@@ -1,22 +1,18 @@
 # Task 6 (Setup guide)
 
 1. Select a directory
-
 ```sh
 cd <path directory_for_repository>
 ```
 2. Clone repo and select a branch
-
 ```sh
 git clone -b task_6 https://git.foxminded.ua/foxstudent105191/php-6.git
 ```
 3. Build Docker image and run Docker container
-
 ```sh
 docker-compose up -d --build
 ```
 4. Write data from files to database
-
  - ```sh
 docker-compose exec -it app bash
 ```
@@ -30,7 +26,6 @@ php artisan add:data
 exit
 ```
 5. Run application in browser
-
  - report(with sort from fastests)
 ```sh
 localhost:5000/report
@@ -68,7 +63,6 @@ http://localhost:5000/api/v1/report/?format=json
  http://localhost:5000/api/v1/report/drivers/LHM/?format=xml
  ```
 6. Run Swagger documents
-
 ```sh
  - docker-compose exec -it app php artisan l5-swagger:generate
 ```
@@ -76,17 +70,14 @@ http://localhost:5000/api/v1/report/?format=json
  - http://localhost:5000/api/documentation
 ```
 7. Run tests
-
 ```sh
 docker-compose exec -it app php artisan test
 ```
 8. Run tests with coverage
-
 ```sh
 docker-compose exec -it app php artisan test --coverage-html coverage
 ```
 9. Delete data from database
-
 ```sh
 docker-compose exec -it app php artisan delete:data
 ```
