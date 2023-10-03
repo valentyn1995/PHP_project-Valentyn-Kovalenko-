@@ -11,8 +11,8 @@
     <tbody>
         @foreach ($sortedReportDataWithName as $code => $driverData)
             <tr>
-                <td><a href="{{ route('report.drivers', ['driver_id' => $code]) }}">{{ $code }}</a></td>
-                <td>{{ $driverData['nameRacer'] }}</td>
+                <td><a href="{{ route('report.drivers', ['driver_id' => $driverData['drivers_code']]) }}">{{ $driverData['drivers_code'] }}</a></td>
+                <td>{{ $driverData['name'] }}</td>
             </tr>
         @endforeach
     </tbody>

@@ -12,7 +12,7 @@
     <tbody>
         @foreach ($reportData as $driverData)
             <tr>
-                <td>{{ $driverData['nameRacer'] }}</td>
+                <td>{{ $driverData['name'] }}</td>
                 <td>{{ $driverData['team'] }}</td>
                 <td>{{ $driverData['lap_time'] }}</td>
             </tr>
