@@ -14,7 +14,7 @@ docker-compose up -d --build
 ```
 4. Write data from files to database
 ```sh
-docker-compose exec -it app bash
+ - docker-compose exec -it app bash
 ```
 ```sh
  - php artisan migrate
