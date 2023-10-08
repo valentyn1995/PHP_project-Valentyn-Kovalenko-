@@ -28,7 +28,7 @@ class ReportController extends Controller
         $column = 'lap_time';
 
         $sortedReportData = $this->reportRepository->getDataWithOrder($column, $sortDirection);
-print_r($sortedReportData);
+
         return view('report.statistics', ['reportData' => $sortedReportData]);
     }
 

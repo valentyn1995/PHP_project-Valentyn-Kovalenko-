@@ -21,13 +21,11 @@ class DeleteDataFromDatabase extends Command
      */
     protected $description = 'Delete data from database';
 
-    /**
-     * Execute the console command.
-     */
     public function __construct(private DeleteDataService $deleteDataService)
     {
         parent::__construct();
     }
+    
     public function handle(): void
     {
         $this->deleteDataService->delete();
