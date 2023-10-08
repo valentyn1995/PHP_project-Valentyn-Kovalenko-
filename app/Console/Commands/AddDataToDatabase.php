@@ -22,14 +22,11 @@ class AddDataToDatabase extends Command
      */
     protected $description = 'Add data to database';
 
-    /**
-     * Execute the console command.
-     */
-
     public function __construct(private CreateDataService $createDataService)
     {
         parent::__construct();
     }
+    
     public function handle(Request $request): void
     {
         $this->createDataService->create($request);
