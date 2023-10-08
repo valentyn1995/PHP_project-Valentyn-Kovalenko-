@@ -9,7 +9,7 @@ use App\Services\BuildReport\ProcessDataRacerService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use Illuminate\Http\Request;
-use App\Models\Report;
+use App\Services\Repository\ReportRepository;
 
 class ReportController extends Controller
 {
@@ -17,6 +17,7 @@ class ReportController extends Controller
         private ReportSortingService $reportSortingService,
         private ProcessDataRacerService $processDataRacerService,
         private ReportService $reportService,
+        private ReportRepository $reportRepository
     ) {
 
     }
@@ -24,18 +25,21 @@ class ReportController extends Controller
     public function showStatistics(Request $request)
     {
         $sortDirection = $request->input('order', 'asc');
+        $column = 'lap_time';
 
-        $sortedReportData = Report::orderBy('lap_time', $sortDirection)->get();
-
+        $sortedReportData = $this->reportRepository->getDataWithOrder($column, $sortDirection);
+print_r($sortedReportData);
         return view('report.statistics', ['reportData' => $sortedReportData]);
     }
 
     public function showDriversName(Request $request)
     {
-        $sortedReportDataWithName = Report::all();
+        $sortedReportDataWithName = $this->reportRepository->getAll();
+
         $driverId = $request->input('driver_id');
 
         if ($driverId) {
+
             return $this->showDriverInfo($driverId);
         }
 
@@ -44,9 +48,12 @@ class ReportController extends Controller
 
     public function showDriverInfo(string $driverId): mixed
     {
-        $driverInfo = Report::where('drivers_code', $driverId)->first();
+        $column = 'drivers_code';
+
+        $driverInfo = $this->reportRepository->getWithFilters($column, $driverId);
 
         if ($driverInfo) {
+
             return view('report.driver_info', ['driverInfo' => $driverInfo]);
         } else {
 
