@@ -6,11 +6,11 @@ namespace App\Services\ConsoleServices;
 
 use App\Services\BuildReport\ReportSortingService;
 use Illuminate\Http\Request;
-use App\Models\Report;
+use App\Services\Repository\ReportRepository;
 
 class CreateDataService
 {
-    public function __construct(private ReportSortingService $reportSortingService)
+    public function __construct(private ReportSortingService $reportSortingService, private ReportRepository $reportRepository)
     {
 
     }
@@ -22,13 +22,6 @@ class CreateDataService
 
         $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
 
-        foreach ($sortedReportDataWithName as $key => $value) {
-            Report::updateOrCreate([
-                'drivers_code' => $key,
-                'name' => $value['nameRacer'],
-                'team' => $value['team'],
-                'lap_time' => $value['lap_time']
-            ]);
-        }
+        $this->reportRepository->createData($sortedReportDataWithName);
     }
 }
