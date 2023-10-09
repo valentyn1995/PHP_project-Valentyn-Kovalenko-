@@ -10,6 +10,8 @@ use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use Illuminate\Http\Request;
 use App\Services\Repository\ReportRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 
 class ReportController extends Controller
 {
@@ -22,7 +24,7 @@ class ReportController extends Controller
 
     }
 
-    public function showStatistics(Request $request)
+    public function showStatistics(Request $request): View|Factory
     {
         $sortDirection = $request->input('order', 'asc');
         $column = 'lap_time';
@@ -32,7 +34,7 @@ class ReportController extends Controller
         return view('report.statistics', ['reportData' => $sortedReportData]);
     }
 
-    public function showDriversName(Request $request)
+    public function showDriversName(Request $request): View|Factory
     {
         $sortedReportDataWithName = $this->reportRepository->getAll();
 
@@ -46,7 +48,7 @@ class ReportController extends Controller
         return view('report.drivers', ['sortedReportDataWithName' => $sortedReportDataWithName]);
     }
 
-    public function showDriverInfo(string $driverId)
+    public function showDriverInfo(string $driverId): View|Factory
     {
         $column = 'drivers_code';
 

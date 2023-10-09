@@ -11,6 +11,7 @@ use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use OpenAPI\Annotations as OA;
 use App\Services\Repository\ReportRepository;
+use Illuminate\Http\Response;
 
 /**
  * @OA\Info(
@@ -69,7 +70,7 @@ class ReportApiController extends Controller
      *     ),
      * )
      */
-    public function getStatistics(Request $request)
+    public function getStatistics(Request $request): null|Response
     {
         $sortDirection = $request->input('order', 'asc');
         $columnToOrder = 'lap_time';
@@ -123,7 +124,7 @@ class ReportApiController extends Controller
      *     ),
      * )
      */
-    public function getDriversName(Request $request)
+    public function getDriversName(Request $request): null|Response
     {
         $columnDriversCode = 'drivers_code';
         $columnName = 'name';
@@ -179,7 +180,7 @@ class ReportApiController extends Controller
      *     ),
      * )
      */
-    public function getDriverInfo(Request $request, string $driverId)
+    public function getDriverInfo(Request $request, string $driverId): null|Response
     {
         $columnDriversCode = 'drivers_code';
         $columnsToSelect = ['name', 'team', 'lap_time'];
