@@ -19,7 +19,7 @@ class ReportApiControllerTest extends TestCase
         $this->seed(TestReportSeeder::class);
     }
 
-    public function testGetStatisticsApiPageJson()
+    public function testGetStatisticsApiPageJson(): void
     {
         $expectedJsonResponse = [
             [
@@ -51,7 +51,7 @@ class ReportApiControllerTest extends TestCase
         $response->assertJson($expectedJsonResponse);
     }
 
-    public function testGetDriversApiPageJson()
+    public function testGetDriversApiPageJson(): void
     {
         $expectedJsonResponse = [
             [
@@ -82,7 +82,7 @@ class ReportApiControllerTest extends TestCase
     /**
      * @dataProvider driverInfoApiPageJsonProvider
      */
-    public function testGetDriverInfoApiPageJson($driverID, $expectedJsonResponse)
+    public function testGetDriverInfoApiPageJson(string $driverID, array $expectedJsonResponse): void
     {
         $response = $this->get("/api/v1/report/drivers/{$driverID}?format=json");
 
@@ -91,7 +91,7 @@ class ReportApiControllerTest extends TestCase
         $response->assertJson($expectedJsonResponse);
     }
 
-    public static function driverInfoApiPageJsonProvider()
+    public static function driverInfoApiPageJsonProvider(): array
     {
         return [
             [
@@ -130,7 +130,7 @@ class ReportApiControllerTest extends TestCase
         ];
     }
 
-    public function testGetStatisticsApiPageXml()
+    public function testGetStatisticsApiPageXml(): void
     {
         $response = $this->get('/api/v1/report?format=xml');
 
@@ -155,7 +155,7 @@ class ReportApiControllerTest extends TestCase
         $this->assertXmlStringEqualsXmlString($expectedXML, $response->getContent());
     }
 
-    public function testGetDriversApiPageXml()
+    public function testGetDriversApiPageXml(): void
     {
         $response = $this->get('/api/v1/report/drivers/?format=xml');
 
@@ -179,7 +179,7 @@ class ReportApiControllerTest extends TestCase
     /**
      * @dataProvider driverInfoApiPageXmlProvider
      */
-    public function testGetDriverInfoApiPageXml($driverID, $expectedXML)
+    public function testGetDriverInfoApiPageXml(string $driverID, string $expectedXML): void
     {
         $response = $this->get("/api/v1/report/drivers/{$driverID}/?format=xml");
 
@@ -189,7 +189,7 @@ class ReportApiControllerTest extends TestCase
         $this->assertXmlStringEqualsXmlString($expectedXML, $response->getContent());
     }
 
-    public static function driverInfoApiPageXmlProvider()
+    public static function driverInfoApiPageXmlProvider(): array
     {
         return [
             [

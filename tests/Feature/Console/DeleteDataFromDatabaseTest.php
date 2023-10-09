@@ -19,12 +19,12 @@ class DeleteDataFromDatabaseTest extends TestCase
         $this->seed(TestReportSeeder::class);
     }
 
-    public function testConsoleDeleteCommandSuccess()
+    public function testConsoleDeleteCommandSuccess(): void
     {
         $this->artisan('delete:data')->assertExitCode(0);
     }
 
-    public function testConsoleDeletingDataFromDatabase()
+    public function testConsoleDeletingDataFromDatabase(): void
     {
         $this->artisan('delete:data');
 

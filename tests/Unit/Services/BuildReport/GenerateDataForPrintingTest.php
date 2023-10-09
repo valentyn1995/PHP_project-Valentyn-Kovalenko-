@@ -9,7 +9,7 @@ use App\Services\BuildReport\GenerateDataForPrinting;
 
 class GenerateDataForPrintingTest extends TestCase
 {
-    public function testFormingDataForPrinting()
+    public function testFormingDataForPrinting(): void
     {
         $generator = new GenerateDataForPrinting();
 
@@ -29,7 +29,7 @@ class GenerateDataForPrintingTest extends TestCase
         $this->assertEquals($expectedData, $expectedResult);
     }
 
-    public function testFormingDataForPrintingWithEmptyInput()
+    public function testFormingDataForPrintingWithEmptyInput(): void
     {
         $generator = new GenerateDataForPrinting();
 

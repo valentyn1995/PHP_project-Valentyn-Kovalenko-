@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 
 class ResponseFormatterApiService
 {
-    public function format(string $format, array $dataForFormatting)
+    public function format(string $format, array $dataForFormatting): ?Response
     {
         if ($format === 'json') {
             $jsonData = json_encode($dataForFormatting);

@@ -19,7 +19,7 @@ class ReportControllerTest extends TestCase
         $this->seed(TestReportSeeder::class);
     }
 
-    public function testShowStatisticsPage()
+    public function testShowStatisticsPage(): void
     {
         $response = $this->get(route('report.statistics'));
 
@@ -36,7 +36,7 @@ class ReportControllerTest extends TestCase
             );
     }
 
-    public function testShowDriversNameList()
+    public function testShowDriversNameList(): void
     {
         $response = $this->get(route('report.drivers'));
 
@@ -66,7 +66,7 @@ class ReportControllerTest extends TestCase
             ->assertSee($driverName);
     }
 
-    public static function driverInfoProvider()
+    public static function driverInfoProvider(): array
     {
         return [
             ['LHM', 'Lewis Hamilton'],
@@ -77,7 +77,7 @@ class ReportControllerTest extends TestCase
     }
     
 
-    public function testSortingByLapTimeAsc()
+    public function testSortingByLapTimeAsc(): void
     {
         $response = $this->get(route('report.statistics', ['order' => 'asc']));
 
@@ -92,7 +92,7 @@ class ReportControllerTest extends TestCase
             );
     }
 
-    public function testSortingByLapTimeDesc()
+    public function testSortingByLapTimeDesc(): void
     {
         $response = $this->get(route('report.statistics', ['order' => 'desc']));
 
@@ -107,11 +107,10 @@ class ReportControllerTest extends TestCase
             );
     }
 
-    public function testPageNotFound()
+    public function testPageNotFound(): void
     {
         $response = $this->get('/nonexistent-page');
 
         $response->assertStatus(404);
     }
-    
 }

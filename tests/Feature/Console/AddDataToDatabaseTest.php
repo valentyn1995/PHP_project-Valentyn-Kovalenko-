@@ -19,7 +19,7 @@ class AddDataToDatabaseTest extends TestCase
         $this->seed(TestReportSeeder::class);
     }
 
-    public function testConsoleAddCommandSuccess()
+    public function testConsoleAddCommandSuccess(): void
     {
         $this->artisan('add:data')->assertExitCode(0);
     }
@@ -27,14 +27,14 @@ class AddDataToDatabaseTest extends TestCase
     /**
      * @dataProvider consoleWritingDataToDatabaseProvider
      */
-    public function testConsoleWritingDataToDatabase($expectedData)
+    public function testConsoleWritingDataToDatabase(array $expectedData): void
     {
         $this->artisan('add:data');
         
         $this->assertDatabaseHas('report', $expectedData);
     }
 
-    public static function consoleWritingDataToDatabaseProvider()
+    public static function consoleWritingDataToDatabaseProvider(): array
     {
         return [
             [

@@ -46,7 +46,7 @@ class ReportController extends Controller
         return view('report.drivers', ['sortedReportDataWithName' => $sortedReportDataWithName]);
     }
 
-    public function showDriverInfo(string $driverId): mixed
+    public function showDriverInfo(string $driverId)
     {
         $column = 'drivers_code';
 

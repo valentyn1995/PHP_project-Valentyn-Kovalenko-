@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProcessDataLapServiceTest extends TestCase
 {
-    public function testExtractDataStartAndEnd()
+    public function testExtractDataStartAndEnd(): void
     {
         $extractDataFromFileMock = $this->createMock(ExtractDataFromFile::class);
         $extractDataFromFileMock->method('extractingDataFromFile')
@@ -27,7 +27,7 @@ class ProcessDataLapServiceTest extends TestCase
         $this->assertEquals($expectedResult, $result);
     }
 
-    public function testExtractDataStartAndEndWithEmptyArg()
+    public function testExtractDataStartAndEndWithEmptyArg(): void
     {
         $extractDataFromFileMock = $this->createMock(ExtractDataFromFile::class);
         $extractDataFromFileMock->method('extractingDataFromFile')

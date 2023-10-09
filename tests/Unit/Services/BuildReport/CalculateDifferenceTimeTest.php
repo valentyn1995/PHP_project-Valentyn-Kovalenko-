@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class CalculateDifferenceTimeTest extends TestCase
 {
-    public function testCalculatingDifferenceTime()
+    public function testCalculatingDifferenceTime(): void
     {
         $calculator = new CalculateDifferenceTime();
 
@@ -25,7 +25,7 @@ class CalculateDifferenceTimeTest extends TestCase
         $this->assertEquals($expectedDifference, $calculatedDifference);
     }
 
-    public function testCalculatingDifferenceTimeWithInvalidTimeFormat()
+    public function testCalculatingDifferenceTimeWithInvalidTimeFormat(): void
     {
         $calculator = new CalculateDifferenceTime();
 
