@@ -3,10 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/report', [ReportController::class, 'showStatistics'])->name('report.statistics');
 
 Route::get('/report/drivers', [ReportController::class, 'showDriversName'])->name('report.drivers');
