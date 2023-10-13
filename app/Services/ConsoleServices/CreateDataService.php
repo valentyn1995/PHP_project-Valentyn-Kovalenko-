@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\ConsoleServices;
 
 use App\Services\BuildReport\ReportSortingService;
-use Illuminate\Http\Request;
 use App\Services\Repository\ReportRepository;
 
 class CreateDataService
@@ -15,7 +14,7 @@ class CreateDataService
 
     }
 
-    public function create(Request $request): void
+    public function create($request): void
     {
         $pathToFile = base_path('files_for_report');
         $sortDirection = $request->input('order', 'asc');
