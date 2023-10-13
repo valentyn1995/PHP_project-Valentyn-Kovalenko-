@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('admin.admin_layout')
 @section('content')
 <h2>Common statistic</h2>
 <table>

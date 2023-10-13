@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('admin.admin_layout')
 @section('content')
 <h2>List of drivers</h2>
 <table>

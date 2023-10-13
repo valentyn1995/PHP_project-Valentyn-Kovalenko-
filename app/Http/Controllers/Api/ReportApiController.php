@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\APIServices\ResponseFormatterApiService;
+use App\Http\ResponseFormatterApiService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use OpenAPI\Annotations as OA;

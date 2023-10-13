@@ -16,7 +16,6 @@ services:
       dockerfile: ./docker/Dockerfile
     depends_on:
       - db
-    command: bash -c "sleep 30"
 
   db:
     image: mysql:8.0
