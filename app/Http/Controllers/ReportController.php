@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\BuildReport\ProcessDataRacerService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use Illuminate\Http\Request;
@@ -17,7 +16,6 @@ class ReportController extends Controller
 {
     public function __construct(
         private ReportSortingService $reportSortingService,
-        private ProcessDataRacerService $processDataRacerService,
         private ReportService $reportService,
         private ReportRepository $reportRepository
     ) {

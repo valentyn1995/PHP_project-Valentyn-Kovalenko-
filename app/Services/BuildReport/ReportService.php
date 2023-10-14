@@ -11,17 +11,15 @@ namespace App\Services\BuildReport;
  */
 class ReportService
 {
-     /**
+    /**
      * Constructs a new ReportService instance.
      *
      * @param ReportDataService $reportDataService The ReportDataService instance for data extraction and processing.
      * @param CalculateDifferenceTime $calculateDifferenceTime The CalculateDifferenceTime instance for time calculations.
-     * @param GenerateDataForPrinting $generateDataForPrinting The GenerateDataForPrinting instance for data formatting.
      */
     public function __construct(
         private ReportDataService $reportDataService,
-        private CalculateDifferenceTime $calculateDifferenceTime,
-        private GenerateDataForPrinting $generateDataForPrinting
+        private CalculateDifferenceTime $calculateDifferenceTime
     ) {
 
     }
@@ -38,8 +36,25 @@ class ReportService
 
         $differenceTimeArray = $this->calculateDifferenceTime->calculatingDifferenceTime($extractedDataFromFile['arrayStart'], $extractedDataFromFile['arrayEnd']);
 
-        $reportDataForPrinting = $this->generateDataForPrinting->formingDataForPrinting($extractedDataFromFile['resultNameRacer'], $differenceTimeArray);
+        $reportDataForPrinting = $this->formingDataForPrinting($extractedDataFromFile['resultNameRacer'], $differenceTimeArray);
 
         return $reportDataForPrinting;
+    }
+
+    private function formingDataForPrinting(array $resultNameRacer, array $differenceTimeArray): array
+    {
+        $reportData = [];
+        foreach ($resultNameRacer as $indexRacer => $valRacer) {
+            if (isset($differenceTimeArray[$indexRacer])) {
+                $arrayWithNameAndTeam = explode("_", $valRacer);
+                $reportData[$indexRacer] = [
+                    'nameRacer' => $arrayWithNameAndTeam[0],
+                    'team' => $arrayWithNameAndTeam[1],
+                    'lap_time' => $differenceTimeArray[$indexRacer],
+                ];
+            }
+        }
+
+        return $reportData;
     }
 }

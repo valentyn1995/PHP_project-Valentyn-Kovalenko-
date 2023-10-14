@@ -7,9 +7,9 @@ namespace App\Services\BuildReport;
 /**
  * Class ProcessDataLapService
  *
- * This class is responsible for processing lap data from a file.
+ * This class is responsible for processing lap and racer data from a file.
  */
-class ProcessDataLapService
+class ProcessDataService
 {
     /**
      * Constructs a new ProcessDataLapService instance.
@@ -48,5 +48,31 @@ class ProcessDataLapService
         ksort($arrayWithoutDate);
 
         return $arrayWithoutDate;
+    }
+
+    /**
+     * Extracts racer data from the specified file.
+     *
+     * @param string $pathToFileRacers The path to the file containing racer data.
+     * @return array An array containing racer names and team.
+     */
+    public function extractNameRacers(string $pathToFileRacers): array
+    {
+        $dataFromFile = $this->extractDataFromFile->extractingDataFromFile($pathToFileRacers);
+        $arrayFromDataFile = explode("\n", $dataFromFile);
+
+        $sortedRacerArray = [];
+        foreach ($arrayFromDataFile as $item) {
+            $parts = explode("_", $item, 2);
+            if (count($parts) == 2) {
+                $index = $parts[0];
+                $value = $parts[1];
+                $sortedRacerArray[$index] = $value;
+            }
+        }
+
+        ksort($sortedRacerArray);
+
+        return $sortedRacerArray;
     }
 }

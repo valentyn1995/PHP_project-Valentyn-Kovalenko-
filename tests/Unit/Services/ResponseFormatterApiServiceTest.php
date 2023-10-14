@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Services\APIServices\ResponseFormatterApiService;
+use App\Http\ResponseFormatterApiService;
 use PHPUnit\Framework\TestCase;
 
 class ResponseFormatterApiServiceTest extends TestCase
