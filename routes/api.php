@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Api\ReportApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {

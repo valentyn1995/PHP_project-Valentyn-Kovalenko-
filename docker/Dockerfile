@@ -5,12 +5,18 @@ FROM php:8.2-fpm
 # Install the zip utility
 # Install the unzip utility
 RUN apt-get update && apt-get install -y \
-    libzip-dev \  
-    zip \         
-    unzip         
-
-# Install the PHP zip extension
-RUN docker-php-ext-install zip
+      apt-utils \
+      libpq-dev \
+      libpng-dev \
+      libzip-dev \
+      zip unzip \
+      git && \
+      docker-php-ext-install pdo_mysql && \
+      docker-php-ext-install bcmath && \
+      docker-php-ext-install gd && \
+      docker-php-ext-install zip && \
+      apt-get clean && \
+      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Download Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

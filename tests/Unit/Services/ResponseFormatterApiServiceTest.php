@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Services\APIServices\ResponseFormatterApiService;
+use App\Http\ResponseFormatterApiService;
 use PHPUnit\Framework\TestCase;
 
 class ResponseFormatterApiServiceTest extends TestCase
 {
-    public function testJsonResponse()
+    public function testJsonResponse(): void
     {
         $expectedJson = '{"LHM":{"nameRacer":"Lewis Hamilton","team":"MERCEDES","lap_time":"00:53:12.460000"}}';
 
@@ -26,7 +26,7 @@ class ResponseFormatterApiServiceTest extends TestCase
         $this->assertSame($expectedJson, $result);
     }
 
-    public function testXmlResponse()
+    public function testXmlResponse(): void
     {
         $expectedXml = '<?xml version="1.0"?>
         <XMLreport>

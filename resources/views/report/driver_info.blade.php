@@ -1,8 +1,8 @@
-@extends('layouts.layout')
+@extends('admin.admin_layout')
 @section('content')
 <h2>Driver Info</h2>
 @if ($driverInfo)
-    <p>Driver name: {{$driverInfo['nameRacer'] }}</p>
+    <p>Driver name: {{$driverInfo['name'] }}</p>
     <p>Driver team: {{$driverInfo['team']}}</p>
     <p>Driver time: {{$driverInfo['lap_time']}}</p>
 @else

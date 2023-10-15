@@ -42,7 +42,7 @@ class ReportSortingServiceTest extends TestCase
         $this->assertSame($expectedResult, $result);
     }
 
-    public static function sortingForOutputProvider()
+    public static function sortingForOutputProvider(): array
     {
         return [
             [

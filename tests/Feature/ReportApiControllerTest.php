@@ -4,23 +4,44 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Database\Seeders\TestReportSeeder;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReportApiControllerTest extends TestCase
 {
-    public function testGetStatisticsApiPageJson()
+    use RefreshDatabase;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(TestReportSeeder::class);
+    }
+
+    public function testGetStatisticsApiPageJson(): void
     {
         $expectedJsonResponse = [
-            'LHM' => [
-                'nameRacer' => 'Lewis Hamilton',
+            [
+                'name' => 'Lewis Hamilton',
                 'team' => 'MERCEDES',
                 'lap_time' => '00:53:12.460000',
             ],
-            'EOF' => [
-                'nameRacer' => 'Esteban Ocon',
+            [
+                'name' => 'Esteban Ocon',
                 'team' => 'FORCE INDIA MERCEDES',
                 'lap_time' => '00:54:13.028000',
             ],
+            [
+                'name' => 'Daniel Ricciardo',
+                'team' => 'RED BULL RACING TAG HEUER',
+                'lap_time' => '00:57:12.013000',
+            ],
+            [
+                'name' => 'Kevin Magnussen',
+                'team' => 'HAAS FERRARI',
+                'lap_time' => '01:01:13.393000',
+            ]
         ];
 
         $response = $this->get('/api/v1/report?format=json');
@@ -30,19 +51,25 @@ class ReportApiControllerTest extends TestCase
         $response->assertJson($expectedJsonResponse);
     }
 
-    public function testGetDriversApiPageJson()
+    public function testGetDriversApiPageJson(): void
     {
         $expectedJsonResponse = [
-            'LHM' => [
-                'nameRacer' => 'Lewis Hamilton',
-                'team' => 'MERCEDES',
-                'lap_time' => '00:53:12.460000',
+            [
+                'drivers_code' => 'LHM',
+                'name' => 'Lewis Hamilton'
             ],
-            'EOF' => [
-                'nameRacer' => 'Esteban Ocon',
-                'team' => 'FORCE INDIA MERCEDES',
-                'lap_time' => '00:54:13.028000',
+            [
+                'drivers_code' => 'EOF',
+                'name' => 'Esteban Ocon',
             ],
+            [
+                'drivers_code' => 'DRR',
+                'name' => 'Daniel Ricciardo',
+            ],
+            [
+                'drivers_code' => 'KMH',
+                'name' => 'Kevin Magnussen',
+            ]
         ];
 
         $response = $this->get('/api/v1/report/drivers/?format=json');
@@ -52,16 +79,11 @@ class ReportApiControllerTest extends TestCase
         $response->assertJson($expectedJsonResponse);
     }
 
-    public function testGetDriverInfoApiPageJson()
+    /**
+     * @dataProvider driverInfoApiPageJsonProvider
+     */
+    public function testGetDriverInfoApiPageJson(string $driverID, array $expectedJsonResponse): void
     {
-        $expectedJsonResponse = [
-            'nameRacer' => 'Lewis Hamilton',
-            'team' => 'MERCEDES',
-            'lap_time' => '00:53:12.460000',
-        ];
-
-        $driverID = 'LHM';
-
         $response = $this->get("/api/v1/report/drivers/{$driverID}?format=json");
 
         $response->assertStatus(200);
@@ -69,160 +91,143 @@ class ReportApiControllerTest extends TestCase
         $response->assertJson($expectedJsonResponse);
     }
 
-    public function testGetStatisticsApiPageXml()
+    public static function driverInfoApiPageJsonProvider(): array
+    {
+        return [
+            [
+                'LHM',
+                [
+                    'name' => 'Lewis Hamilton',
+                    'team' => 'MERCEDES',
+                    'lap_time' => '00:53:12.460000'
+                ]
+
+            ],
+            [
+                'EOF',
+                [
+                    'name' => 'Esteban Ocon',
+                    'team' => 'FORCE INDIA MERCEDES',
+                    'lap_time' => '00:54:13.028000'
+                ]
+            ],
+            [
+                'DRR',
+                [
+                    'name' => 'Daniel Ricciardo',
+                    'team' => 'RED BULL RACING TAG HEUER',
+                    'lap_time' => '00:57:12.013000'
+                ]
+            ],
+            [
+                'KMH',
+                [
+                    'name' => 'Kevin Magnussen',
+                    'team' => 'HAAS FERRARI',
+                    'lap_time' => '01:01:13.393000'
+                ]
+            ]
+        ];
+    }
+
+    public function testGetStatisticsApiPageXml(): void
     {
         $response = $this->get('/api/v1/report?format=xml');
 
         $response->assertStatus(200);
 
         $expectedXML = '<?xml version="1.0"?>
-        <XMLreport>
-            <nameRacer>Lewis Hamilton</nameRacer>
-            <team>MERCEDES</team>
-            <lap_time>00:53:12.460000</lap_time>
-            <nameRacer>Esteban Ocon</nameRacer>
-            <team>FORCE INDIA MERCEDES</team>
-            <lap_time>00:54:13.028000</lap_time>
-            <nameRacer>Sergey Sirotkin</nameRacer>
-            <team>WILLIAMS MERCEDES</team>
-            <lap_time>00:55:12.706000</lap_time>
-            <nameRacer>Daniel Ricciardo</nameRacer>
-            <team>RED BULL RACING TAG HEUER</team>
-            <lap_time>00:57:12.013000</lap_time>
-            <nameRacer>Sebastian Vettel</nameRacer>
-            <team>FERRARI</team>
-            <lap_time>01:01:04.415000</lap_time>
-            <nameRacer>Valtteri Bottas</nameRacer>
-            <team>MERCEDES</team>
-            <lap_time>01:01:12.434000</lap_time>
-            <nameRacer>Stoffel Vandoorne</nameRacer>
-            <team>MCLAREN RENAULT</team>
-            <lap_time>01:01:12.463000</lap_time>
-            <nameRacer>Kimi Räikkönen</nameRacer>
-            <team>FERRARI</team>
-            <lap_time>01:01:12.639000</lap_time>
-            <nameRacer>Fernando Alonso</nameRacer>
-            <team>MCLAREN RENAULT</team>
-            <lap_time>01:01:12.657000</lap_time>
-            <nameRacer>Charles Leclerc</nameRacer>
-            <team>SAUBER FERRARI</team>
-            <lap_time>01:01:12.829000</lap_time>
-            <nameRacer>Sergio Perez</nameRacer>
-            <team>FORCE INDIA MERCEDES</team>
-            <lap_time>01:01:12.848000</lap_time>
-            <nameRacer>Romain Grosjean</nameRacer>
-            <team>HAAS FERRARI</team>
-            <lap_time>01:01:12.930000</lap_time>
-            <nameRacer>Pierre Gasly</nameRacer>
-            <team>SCUDERIA TORO ROSSO HONDA</team>
-            <lap_time>01:01:12.941000</lap_time>
-            <nameRacer>Carlos Sainz</nameRacer>
-            <team>RENAULT</team>
-            <lap_time>01:01:12.950000</lap_time>
-            <nameRacer>Nico Hulkenberg</nameRacer>
-            <team>RENAULT</team>
-            <lap_time>01:01:13.065000</lap_time>
-            <nameRacer>Brendon Hartley</nameRacer>
-            <team>SCUDERIA TORO ROSSO HONDA</team>
-            <lap_time>01:01:13.179000</lap_time>
-            <nameRacer>Marcus Ericsson</nameRacer>
-            <team>SAUBER FERRARI</team>
-            <lap_time>01:01:13.265000</lap_time>
-            <nameRacer>Lance Stroll</nameRacer>
-            <team>WILLIAMS MERCEDES</team>
-            <lap_time>01:01:13.323000</lap_time>
-            <nameRacer>Kevin Magnussen</nameRacer>
-            <team>HAAS FERRARI</team>
-            <lap_time>01:01:13.393000</lap_time>
-        </XMLreport>';
+              <XMLreport>
+                  <name>Lewis Hamilton</name>
+                  <team>MERCEDES</team>
+                  <lap_time>00:53:12.460000</lap_time>
+                  <name>Esteban Ocon</name>
+                  <team>FORCE INDIA MERCEDES</team>
+                  <lap_time>00:54:13.028000</lap_time>
+                  <name>Daniel Ricciardo</name>
+                  <team>RED BULL RACING TAG HEUER</team>
+                  <lap_time>00:57:12.013000</lap_time>
+                  <name>Kevin Magnussen</name>
+                  <team>HAAS FERRARI</team>
+                  <lap_time>01:01:13.393000</lap_time>
+              </XMLreport>';
 
         $this->assertXmlStringEqualsXmlString($expectedXML, $response->getContent());
     }
 
-    public function testGetDriversApiPageXml()
+    public function testGetDriversApiPageXml(): void
     {
         $response = $this->get('/api/v1/report/drivers/?format=xml');
 
         $response->assertStatus(200);
 
         $expectedXML = '<?xml version="1.0"?>
-        <XMLreport>
-            <nameRacer>Lewis Hamilton</nameRacer>
-            <team>MERCEDES</team>
-            <lap_time>00:53:12.460000</lap_time>
-            <nameRacer>Esteban Ocon</nameRacer>
-            <team>FORCE INDIA MERCEDES</team>
-            <lap_time>00:54:13.028000</lap_time>
-            <nameRacer>Sergey Sirotkin</nameRacer>
-            <team>WILLIAMS MERCEDES</team>
-            <lap_time>00:55:12.706000</lap_time>
-            <nameRacer>Daniel Ricciardo</nameRacer>
-            <team>RED BULL RACING TAG HEUER</team>
-            <lap_time>00:57:12.013000</lap_time>
-            <nameRacer>Sebastian Vettel</nameRacer>
-            <team>FERRARI</team>
-            <lap_time>01:01:04.415000</lap_time>
-            <nameRacer>Valtteri Bottas</nameRacer>
-            <team>MERCEDES</team>
-            <lap_time>01:01:12.434000</lap_time>
-            <nameRacer>Stoffel Vandoorne</nameRacer>
-            <team>MCLAREN RENAULT</team>
-            <lap_time>01:01:12.463000</lap_time>
-            <nameRacer>Kimi Räikkönen</nameRacer>
-            <team>FERRARI</team>
-            <lap_time>01:01:12.639000</lap_time>
-            <nameRacer>Fernando Alonso</nameRacer>
-            <team>MCLAREN RENAULT</team>
-            <lap_time>01:01:12.657000</lap_time>
-            <nameRacer>Charles Leclerc</nameRacer>
-            <team>SAUBER FERRARI</team>
-            <lap_time>01:01:12.829000</lap_time>
-            <nameRacer>Sergio Perez</nameRacer>
-            <team>FORCE INDIA MERCEDES</team>
-            <lap_time>01:01:12.848000</lap_time>
-            <nameRacer>Romain Grosjean</nameRacer>
-            <team>HAAS FERRARI</team>
-            <lap_time>01:01:12.930000</lap_time>
-            <nameRacer>Pierre Gasly</nameRacer>
-            <team>SCUDERIA TORO ROSSO HONDA</team>
-            <lap_time>01:01:12.941000</lap_time>
-            <nameRacer>Carlos Sainz</nameRacer>
-            <team>RENAULT</team>
-            <lap_time>01:01:12.950000</lap_time>
-            <nameRacer>Nico Hulkenberg</nameRacer>
-            <team>RENAULT</team>
-            <lap_time>01:01:13.065000</lap_time>
-            <nameRacer>Brendon Hartley</nameRacer>
-            <team>SCUDERIA TORO ROSSO HONDA</team>
-            <lap_time>01:01:13.179000</lap_time>
-            <nameRacer>Marcus Ericsson</nameRacer>
-            <team>SAUBER FERRARI</team>
-            <lap_time>01:01:13.265000</lap_time>
-            <nameRacer>Lance Stroll</nameRacer>
-            <team>WILLIAMS MERCEDES</team>
-            <lap_time>01:01:13.323000</lap_time>
-            <nameRacer>Kevin Magnussen</nameRacer>
-            <team>HAAS FERRARI</team>
-            <lap_time>01:01:13.393000</lap_time>
-        </XMLreport>';
+              <XMLreport>
+                  <drivers_code>LHM</drivers_code>
+                  <name>Lewis Hamilton</name>
+                  <drivers_code>EOF</drivers_code>
+                  <name>Esteban Ocon</name>
+                  <drivers_code>DRR</drivers_code>
+                  <name>Daniel Ricciardo</name>
+                  <drivers_code>KMH</drivers_code>
+                  <name>Kevin Magnussen</name>
+              </XMLreport>';
 
         $this->assertXmlStringEqualsXmlString($expectedXML, $response->getContent());
     }
 
-    public function testGetDriverInfoApiPageXml()
+    /**
+     * @dataProvider driverInfoApiPageXmlProvider
+     */
+    public function testGetDriverInfoApiPageXml(string $driverID, string $expectedXML): void
     {
-        $driverID = 'LHM';
         $response = $this->get("/api/v1/report/drivers/{$driverID}/?format=xml");
 
         $response->assertStatus(200);
 
-        $expectedXML = '<?xml version="1.0"?>
-        <XMLreport>
-            <nameRacer>Lewis Hamilton</nameRacer>
-            <team>MERCEDES</team>
-            <lap_time>00:53:12.460000</lap_time>
-        </XMLreport>';
 
         $this->assertXmlStringEqualsXmlString($expectedXML, $response->getContent());
+    }
+
+    public static function driverInfoApiPageXmlProvider(): array
+    {
+        return [
+            [
+                'LHM',
+                '<?xml version="1.0"?>
+            <XMLreport>
+                <name>Lewis Hamilton</name>
+                <team>MERCEDES</team>
+                <lap_time>00:53:12.460000</lap_time>
+            </XMLreport>'
+            ],
+            [
+                'EOF',
+                '<?xml version="1.0"?>
+            <XMLreport>
+                <name>Esteban Ocon</name>
+                <team>FORCE INDIA MERCEDES</team>
+                <lap_time>00:54:13.028000</lap_time>
+            </XMLreport>'
+            ],
+            [
+                'DRR',
+                '<?xml version="1.0"?>
+            <XMLreport>
+                <name>Daniel Ricciardo</name>
+                <team>RED BULL RACING TAG HEUER</team>
+                <lap_time>00:57:12.013000</lap_time>
+            </XMLreport>'
+            ],
+            [
+                'KMH',
+                '<?xml version="1.0"?>
+            <XMLreport>
+                <name>Kevin Magnussen</name>
+                <team>HAAS FERRARI</team>
+                <lap_time>01:01:13.393000</lap_time>
+            </XMLreport>'
+            ]
+        ];
     }
 }

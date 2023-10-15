@@ -4,12 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
+use Database\Seeders\TestReportSeeder;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ReportControllerTest extends TestCase
 {
+    use RefreshDatabase;
 
-    public function testShowStatisticsPage()
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(TestReportSeeder::class);
+    }
+
+    public function testShowStatisticsPage(): void
     {
         $response = $this->get(route('report.statistics'));
 
@@ -20,28 +30,13 @@ class ReportControllerTest extends TestCase
                     'Common statistic',
                     'Lewis Hamilton',
                     'Esteban Ocon',
-                    'Sergey Sirotkin',
                     'Daniel Ricciardo',
-                    'Sebastian Vettel',
-                    'Valtteri Bottas',
-                    'Stoffel Vandoorne',
-                    'Kimi Räikkönen',
-                    'Fernando Alonso',
-                    'Charles Leclerc',
-                    'Sergio Perez',
-                    'Romain Grosjean',
-                    'Pierre Gasly',
-                    'Carlos Sainz',
-                    'Nico Hulkenberg',
-                    'Brendon Hartley',
-                    'Marcus Ericsson',
-                    'Lance Stroll',
                     'Kevin Magnussen'
                 ]
             );
     }
 
-    public function testShowDriversNameList()
+    public function testShowDriversNameList(): void
     {
         $response = $this->get(route('report.drivers'));
 
@@ -52,22 +47,7 @@ class ReportControllerTest extends TestCase
                     'List of drivers',
                     'Lewis Hamilton',
                     'Esteban Ocon',
-                    'Sergey Sirotkin',
                     'Daniel Ricciardo',
-                    'Sebastian Vettel',
-                    'Valtteri Bottas',
-                    'Stoffel Vandoorne',
-                    'Kimi Räikkönen',
-                    'Fernando Alonso',
-                    'Charles Leclerc',
-                    'Sergio Perez',
-                    'Romain Grosjean',
-                    'Pierre Gasly',
-                    'Carlos Sainz',
-                    'Nico Hulkenberg',
-                    'Brendon Hartley',
-                    'Marcus Ericsson',
-                    'Lance Stroll',
                     'Kevin Magnussen'
                 ]
             );
@@ -76,7 +56,7 @@ class ReportControllerTest extends TestCase
     /**
      * @dataProvider driverInfoProvider
      */
-    public function testshowDriverInfoPage(string $driverId, string $driverName): void
+    public function testShowDriverInfoPage(string $driverId, string $driverName): void
     {
         $response = $this->get(route('report.driver_info', ['driver_id' => $driverId]));
 
@@ -86,18 +66,18 @@ class ReportControllerTest extends TestCase
             ->assertSee($driverName);
     }
 
-    public static function driverInfoProvider()
+    public static function driverInfoProvider(): array
     {
         return [
             ['LHM', 'Lewis Hamilton'],
             ['EOF', 'Esteban Ocon'],
-            ['KRF', 'Kimi Räikkönen'],
-            ['NHR', 'Nico Hulkenberg'],
-            ['MES', 'Marcus Ericsson']
+            ['DRR', 'Daniel Ricciardo'],
+            ['KMH', 'Kevin Magnussen']
         ];
     }
+    
 
-    public function testSortingByLapTimeAsc()
+    public function testSortingByLapTimeAsc(): void
     {
         $response = $this->get(route('report.statistics', ['order' => 'asc']));
 
@@ -106,28 +86,13 @@ class ReportControllerTest extends TestCase
                 [
                     'Lewis Hamilton',
                     'Esteban Ocon',
-                    'Sergey Sirotkin',
                     'Daniel Ricciardo',
-                    'Sebastian Vettel',
-                    'Valtteri Bottas',
-                    'Stoffel Vandoorne',
-                    'Kimi Räikkönen',
-                    'Fernando Alonso',
-                    'Charles Leclerc',
-                    'Sergio Perez',
-                    'Romain Grosjean',
-                    'Pierre Gasly',
-                    'Carlos Sainz',
-                    'Nico Hulkenberg',
-                    'Brendon Hartley',
-                    'Marcus Ericsson',
-                    'Lance Stroll',
                     'Kevin Magnussen'
                 ]
             );
     }
 
-    public function testSortingByLapTimeDesc()
+    public function testSortingByLapTimeDesc(): void
     {
         $response = $this->get(route('report.statistics', ['order' => 'desc']));
 
@@ -135,29 +100,14 @@ class ReportControllerTest extends TestCase
             ->assertSeeInOrder(
                 [
                     'Kevin Magnussen',
-                    'Lance Stroll',
-                    'Marcus Ericsson',
-                    'Brendon Hartley',
-                    'Nico Hulkenberg',
-                    'Carlos Sainz',
-                    'Pierre Gasly',
-                    'Romain Grosjean',
-                    'Sergio Perez',
-                    'Charles Leclerc',
-                    'Fernando Alonso',
-                    'Kimi Räikkönen',
-                    'Stoffel Vandoorne',
-                    'Valtteri Bottas',
-                    'Sebastian Vettel',
                     'Daniel Ricciardo',
-                    'Sergey Sirotkin',
                     'Esteban Ocon',
                     'Lewis Hamilton'
                 ]
             );
     }
 
-    public function testPageNotFound()
+    public function testPageNotFound(): void
     {
         $response = $this->get('/nonexistent-page');
 

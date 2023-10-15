@@ -5,55 +5,55 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Services\BuildReport\ProcessDataRacerService;
 use App\Services\BuildReport\ReportSortingService;
 use App\Services\BuildReport\ReportService;
 use Illuminate\Http\Request;
+use App\Services\Repository\ReportRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 
 class ReportController extends Controller
 {
     public function __construct(
         private ReportSortingService $reportSortingService,
-        private ProcessDataRacerService $processDataRacerService,
-        private ReportService $reportService
+        private ReportService $reportService,
+        private ReportRepository $reportRepository
     ) {
 
     }
 
-    public function showStatistics(Request $request)
+    public function showStatistics(Request $request): View|Factory
     {
-        $pathToFile = base_path('files_for_report');
         $sortDirection = $request->input('order', 'asc');
+        $column = 'lap_time';
 
-        $sortedReportData = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
+        $sortedReportData = $this->reportRepository->getDataWithOrder($column, $sortDirection);
 
         return view('report.statistics', ['reportData' => $sortedReportData]);
     }
 
-    public function showDriversName(Request $request)
+    public function showDriversName(Request $request): View|Factory
     {
-        $pathToFile = base_path('files_for_report');
-        $sortDirection = $request->input('order', 'asc');
-
-        $sortedReportDataWithName = $this->reportSortingService->sortingForOutput($pathToFile, $sortDirection);
+        $sortedReportDataWithName = $this->reportRepository->getAll();
 
         $driverId = $request->input('driver_id');
 
         if ($driverId) {
+
             return $this->showDriverInfo($driverId);
         }
 
         return view('report.drivers', ['sortedReportDataWithName' => $sortedReportDataWithName]);
     }
 
-    public function showDriverInfo(string $driverId): mixed
+    public function showDriverInfo(string $driverId): View|Factory
     {
-        $pathToFile = base_path('files_for_report');
+        $column = 'drivers_code';
 
-        $sortedReportDataAboutDriver = $this->reportService->buildingReport($pathToFile);
+        $driverInfo = $this->reportRepository->getWithFilters($column, $driverId);
 
-        if (isset($sortedReportDataAboutDriver[$driverId])) {
-            $driverInfo = $sortedReportDataAboutDriver[$driverId];
+        if ($driverInfo) {
+
             return view('report.driver_info', ['driverInfo' => $driverInfo]);
         } else {
 

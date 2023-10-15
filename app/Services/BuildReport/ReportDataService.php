@@ -14,12 +14,10 @@ class ReportDataService
     /**
      * Constructs a new ReportDataService instance.
      *
-     * @param ProcessDataLapService $processDataLapService The ProcessDataLapService instance for lap data.
-     * @param ProcessDataRacerService $processDataRacerService The ProcessDataRacerService instance for racer data.
+     * @param ProcessDataService $processDataService The ProcessDataService instance for lap and racer data.
      */
     public function __construct(
-        private ProcessDataLapService $processDataLapService,
-        private ProcessDataRacerService $processDataRacerService
+        private ProcessDataService $processDataService
     ) {
 
     }
@@ -36,9 +34,9 @@ class ReportDataService
         $endLogFile = "$inputFolderPath/end.log";
         $abbreviationsFile = "$inputFolderPath/abbreviations.txt";
 
-        $arrayStart = $this->processDataLapService->extractDataStartAndEnd($startLogFile);
-        $arrayEnd = $this->processDataLapService->extractDataStartAndEnd($endLogFile);
-        $resultNameRacer = $this->processDataRacerService->extractNameRacers($abbreviationsFile);
+        $arrayStart = $this->processDataService->extractDataStartAndEnd($startLogFile);
+        $arrayEnd = $this->processDataService->extractDataStartAndEnd($endLogFile);
+        $resultNameRacer = $this->processDataService->extractNameRacers($abbreviationsFile);
 
         return [
             'arrayStart' => $arrayStart,

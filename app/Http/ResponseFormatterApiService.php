@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\APIServices;
+namespace App\Http;
 
 use Illuminate\Http\Response;
 
 class ResponseFormatterApiService
 {
-    public function format(string $format, array $dataForFormatting)
+    public function format(string $format, array $dataForFormatting): ?Response
     {
         if ($format === 'json') {
             $jsonData = json_encode($dataForFormatting);
