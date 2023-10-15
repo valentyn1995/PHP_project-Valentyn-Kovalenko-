@@ -25,10 +25,13 @@ services:
       dockerfile: ./docker/Dockerfile
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
 
   nginx:
     image: nginx:latest
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - .:/app
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
