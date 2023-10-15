@@ -15,7 +15,8 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     depends_on:
-      - db
+      db:
+        condition: service_started
 
   db:
     image: mysql:8.0
