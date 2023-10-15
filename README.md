@@ -1,4 +1,4 @@
-# Task 6 (Setup guide)
+# Web report of Monaco 2018 Racing (Setup guide)
 
 1. Select a directory
 ```sh
@@ -6,7 +6,7 @@ cd <path directory_for_repository>
 ```
 2. Clone repo and select a branch
 ```sh
-git clone -b Task_8 https://git.foxminded.ua/foxstudent105191/php-6.git
+git clone -b main https://git.foxminded.ua/foxstudent105191/php-6.git
 ```
 3. Build Docker image and run Docker container
 ```sh
