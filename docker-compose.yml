@@ -1,13 +1,22 @@
 version: '3'
 
 services:
-  nginx:
-    image: nginx:latest
+  db:
+    image: mysql:8.0
+    restart: always
     volumes:
-      - .:/app
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./tmp/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: larReport
+      MYSQL_ROOT_PASSWORD: 12345
     ports:
-      - "5000:80"
+      - 5101:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   app:
     image: php:8.2-fpm
@@ -18,13 +27,10 @@ services:
       db:
         condition: service_started
 
-  db:
-    image: mysql:8.0
-    restart: always
+  nginx:
+    image: nginx:latest
     volumes:
-      - ./tmp/db:/var/lib/mysql
-    environment:
-        MYSQL_DATABASE: larReport
-        MYSQL_ROOT_PASSWORD: 12345
+      - .:/app
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - 5101:3306
+      - "5000:80"
